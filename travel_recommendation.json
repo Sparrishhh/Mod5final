@@ -1,0 +1,54 @@
+// Mock data for recommendations
+const recommendations = [
+    { 
+        title: 'Beach Paradise', 
+        description: 'Relax and unwind on pristine beaches.', 
+        keywords: ['beach', 'relax'], 
+        imageUrl: 'travelRecommendation/BeachParadise.jpg'
+    },
+    { 
+        title: 'Temple Tour', 
+        description: 'Explore ancient temples and rich history.', 
+        keywords: ['temple', 'history'], 
+        imageUrl: 'Temple.png'
+    },
+    { 
+        title: 'Countryside Getaway', 
+        description: 'Enjoy the serenity of the countryside.', 
+        keywords: ['countryside', 'serenity'], 
+        imageUrl: 'Country.png'
+    },
+];
+
+function searchRecommendations() {
+    const query = document.getElementById('searchBar').value.toLowerCase();
+    const results = recommendations.filter((rec) => 
+        rec.keywords.some(keyword => keyword.toLowerCase().includes(query))
+    );
+    displayRecommendations(results);
+}
+
+function displayRecommendations(results) {
+    const container = document.getElementById('recommendationResults');
+    container.innerHTML = '';
+
+    if (results.length > 0) {
+        results.forEach((rec) => {
+            const card = document.createElement('div');
+            card.classList.add('recommendation-card');
+            card.innerHTML = `
+                <h3>${rec.title}</h3>
+                <img src="${rec.imageUrl}" alt="${rec.title}" style="width: 100%; height: auto;">
+                <p>${rec.description}</p>
+            `;
+            container.appendChild(card);
+        });
+    } else {
+        container.innerHTML = '<p>No recommendations found.</p>';
+    }
+}
+
+function clearResults() {
+    document.getElementById('searchBar').value = '';
+    displayRecommendations([]);
+}
